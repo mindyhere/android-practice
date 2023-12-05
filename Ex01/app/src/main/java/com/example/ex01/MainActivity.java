@@ -47,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.button2:
                 intent = new Intent(this, Exchange.class);
                 break;
+            case R.id.button3:
+                intent = new Intent(this, Bmi.class);
+                break;
+            case R.id.button4:
+                intent = new Intent(this, CheckboxDemo.class);
+                break;
+            case R.id.button5:
+                intent = new Intent(this, RadioDemo.class);
+                break;
         }
         startActivity(intent); //화면전환
     }
