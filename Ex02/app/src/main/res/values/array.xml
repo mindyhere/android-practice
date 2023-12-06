@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fruit">
+        <!--배열의 변수명-->
+        <item>사과</item>
+        <item>포도</item>
+        <item>딸기</item>
+        <item>수박</item>
+        <item>체리</item>
+        <item>레몬</item>
+        <item>망고</item>
+    </string-array>
+</resources>

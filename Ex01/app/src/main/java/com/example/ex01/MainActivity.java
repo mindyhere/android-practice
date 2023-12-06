@@ -37,9 +37,10 @@ public class MainActivity extends AppCompatActivity {
         Log.i("test", "onDestroy");
     }
 
-    public void mOnClick(View view){
-        Intent intent =null;
-        switch (view.getId()){
+    public void mOnClick(View view) {
+        Intent intent = null;
+        switch (view.getId()) {
+//         메인화면에서 클릭한 버튼아이디
             case R.id.button1:
                 intent = new Intent(this, ImageViewDemo.class);
                 break;
@@ -55,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.button5:
                 intent = new Intent(this, RadioDemo.class);
+                break;
+            case R.id.button6:
+                intent = new Intent(this, Yut.class);
+                break;
+            case R.id.button7:
+                intent = new Intent(this, Scroll.class);
                 break;
         }
         startActivity(intent); //화면전환
