@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- 전화걸기 권한 추가 -->
+    <uses-permission
+        android:name="android.permission.CALL_PHONE"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +20,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ex02"
         tools:targetApi="31">
+        <activity
+            android:name=".AutoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GridActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SpinnerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PhonebookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListArray"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <!--
+    android:name=".ListArray"  → 액티비티 이름
+        android:exported="false"   → 외부에서 호출 가능여부
+        android:windowSoftInputMode="adjustPan"    → 소프트키보드제어
+        -->
         <activity
             android:name=".ListXml"
             android:exported="false" />
