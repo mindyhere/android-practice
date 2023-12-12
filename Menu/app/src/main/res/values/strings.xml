@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Menu prac</string>
+    <string name="app_name">Menu</string>
+    <string name="app_explain">test menu</string>
+    <string name="menu1">Option menu</string>
 </resources>

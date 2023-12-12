@@ -22,8 +22,11 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, ReadWriteActivity.class);
         } else if (v.getId() == R.id.button3) {
             intent = new Intent(this, ExternalActivity.class);
+        } else if (v.getId() == R.id.button4) {
+            intent = new Intent(this, BackupActivity.class);
+        } else if (v.getId() == R.id.button5) {
+            intent = new Intent(this, RestoreActivity.class);
         }
-
         startActivity(intent);
     }
 }

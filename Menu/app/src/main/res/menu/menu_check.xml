@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/submenu"
+        android:title="@string/app_explain">
+        <menu>
+            <!-- checkableBehavior : 모든 항목 체크 가능 -->
+            <group
+                android:id="@+id/check_group"
+                android:checkableBehavior="all">
+                <item
+                    android:id="@+id/bigfont"
+                    android:title="BigFont"/>
+            </group>
+            <!-- checkableBehavior="single" 라디오버튼 -->
+            <group
+                android:id="@+id/check_group2"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/red"
+                    android:checked="true"
+                    android:title="Red"/>
+                <item
+                    android:id="@+id/green"
+                    android:title="Green"/>
+                <item
+                    android:id="@+id/blue"
+                    android:title="Blue"/>
+            </group>
+        </menu>
+    </item>
+</menu>

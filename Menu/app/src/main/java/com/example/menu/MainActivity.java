@@ -21,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, OptionMenuActivity.class);
         } else if (v.getId() == R.id.btn2) {
             intent = new Intent(this, OptionXmlActivity.class);
-       // } else if (v.getId() == R.id.btn3) {
-         //   intent = new Intent(this, );
-
+        } else if (v.getId() == R.id.btn3) {
+            intent = new Intent(this, MenuCheckActivity.class);
+        } else if (v.getId() == R.id.btn4) {
+            intent = new Intent(this, ContextMenuActivity.class);
         }
         startActivity(intent);
     }
