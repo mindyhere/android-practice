@@ -1,10 +1,10 @@
-package com.example.ex04;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.graphic;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,22 +12,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     public void onClick(View v) {
         Intent intent = null;
         if (v.getId() == R.id.button1) {
-            intent = new Intent(this, ResourceActivity.class);
+            intent = new Intent(this, ProgressActivity.class);
         } else if (v.getId() == R.id.button2) {
-            intent = new Intent(this, ReadWriteActivity.class);
+            intent = new Intent(this, ShapeActivity.class);
         } else if (v.getId() == R.id.button3) {
-            intent = new Intent(this, ExternalActivity.class);
+            intent = new Intent(this, KeyActivity.class);
         } else if (v.getId() == R.id.button4) {
-            intent = new Intent(this, BackupActivity.class);
+            intent = new Intent(this, LineActivity.class);
         } else if (v.getId() == R.id.button5) {
-            intent = new Intent(this, RestoreActivity.class);
-        } else if (v.getId() == R.id.button6) {
-            intent = new Intent(this, ExcelActivity.class);
+            intent = new Intent(this, GameActivity.class);
         }
         startActivity(intent);
     }
