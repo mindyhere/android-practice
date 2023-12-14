@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">   //root node. xmlns=name spaces. 현재 문서의 규격
+    <PreferenceCategory android:title="기타 설정">
+        <CheckBoxPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="screenOn"
+            android:summaryOff="화면조명을 끕니다."
+            android:summaryOn="화면조명을 끄지 않습니다."
+            android:title="화면조명유지" />
+        <CheckBoxPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="checkbox"
+            android:summaryOff="체크 해제되었습니다."
+            android:summaryOn="체크 되었습니다."
+            android:title="체크박스 환경설정" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default value"
+            android:dialogTitle="텍스트를 입력하세요"
+            android:key="text"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="텍스트 입력" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="글꼴 관련 설정">
+        <ListPreference
+            android:defaultValue="10"
+            android:dialogTitle="글꼴 크기를 선택하세요."
+            android:entries="@array/font_size"
+            android:entryValues="@array/font_size_value"
+            android:key="font"
+            android:summary="글꼴 크기를 선택합니다."
+            android:title="글꼴 크기" />
+        <ListPreference
+            android:dialogTitle="글꼴 색상을 선택하세요."
+            android:entries="@array/font_color"
+            android:entryValues="@array/font_color_value"
+            android:key="font_color"
+            android:summary="글꼴 색상을 선택합니다."
+            android:title="글꼴 색상" />
+        //res → array.xml의 목록 중 태그에 맞는 항목을 가져옴
+    </PreferenceCategory>
+</PreferenceScreen>
