@@ -6,12 +6,36 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/graphic"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/graphic"
         android:supportsRtl="true"
         android:theme="@style/Theme.Graphic"
         tools:targetApi="31">
+        <activity
+            android:name=".MultiTouchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ClockActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MoveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ImageRotateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".KeyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShapeActivity"
+            android:exported="false" />
         <activity
             android:name=".ProgressActivity"
             android:exported="false" />
