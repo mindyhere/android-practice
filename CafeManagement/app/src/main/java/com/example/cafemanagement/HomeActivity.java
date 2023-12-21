@@ -6,19 +6,18 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu);
     }
 
     public void onClick(View v) {
         Intent intent = null;
-        if (v.getId() == R.id.btnMenu) {
-            //intent = new Intent(this, SpinnerActivity.class);
-            intent = new Intent(this, MenuActivity.class);
+        if (v.getId() == R.id.btnHome) {
+            intent = new Intent(this, MainActivity.class);
         }
         startActivity(intent);
     }
