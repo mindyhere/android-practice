@@ -1,5 +1,6 @@
 package com.example.cafemanagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
     Button btnAdd;
-    RecyclerView rv;
+    RecyclerView rv, rvHeader;
     MenuDAO dao;
     List<MenuDTO> menus;
     RecyclerView.Adapter myAdapter;
@@ -28,26 +29,25 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        btnAdd = findViewById(R.id.btnAdd);
         rv = findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rv.addItemDecoration(new DividerItemDecoration(rv.getContext(), DividerItemDecoration.VERTICAL));
         dao = new MenuDAO(this);
 
+        btnAdd = findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent=new Intent(MenuActivity.this, MenuAddActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MenuActivity.this, MenuAddActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    @Override
     protected void onResume() {
         super.onResume();
         menus = dao.list();
-        Log.i("test", "상품목록: " + menus);
+        Log.i("test", "상품목록:" + menus);
         myAdapter = new MyAdapter();
         rv.setAdapter(myAdapter);
     }
@@ -63,17 +63,16 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             MenuDTO dto = menus.get(position);
-            Log.i("test", "dto: " + dto);
-            holder.tvCategory.setText(dto.getCategory()+"\t");
-            holder.tvMenuNo.setText(dto.getMenuNo()+""+"\t");
-            holder.tvMenuName.setText(dto.getMenuName()+"\t");
-            holder.tvPrice.setText(dto.getPrice()+""+"\t");
-            //holder.tvRun.setText(dto.getRun()+"");
-            if(dto.getRun()==1) {
-                holder.tvRun.setText("판매중");
+            Log.i("test", "onBind, dto: " + dto);
+            holder.tvCategory.setText(dto.getCategory());
+            holder.tvMenuNo.setText(dto.getMenuNo() + "");
+            holder.tvMenuName.setText(dto.getMenuName());
+            holder.tvPrice.setText(dto.getPrice() + "");
+            if (dto.getRun() == 1) {
+                holder.tvRun.setText("○");
             } else {
-                holder.tvRun.setText("임시중단");
-            };
+                holder.tvRun.setText("Ⅹ");
+            }
         }
 
         @Override
@@ -88,6 +87,7 @@ public class MenuActivity extends AppCompatActivity {
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 itemView.setOnClickListener(this);
+
                 this.tvCategory = itemView.findViewById(R.id.tvCategory);
                 this.tvMenuNo = itemView.findViewById(R.id.tvMenuNo);
                 this.tvMenuName = itemView.findViewById(R.id.tvMenuName);
@@ -97,8 +97,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //Intent intent=new Intent(MenuActivity.this, MenuEditActivity.class);
-
+                //Edit 액티비티 추가
             }
         }
     }

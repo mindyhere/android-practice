@@ -17,7 +17,7 @@ public class MenuDAO {
     }
 
     public SQLiteDatabase dbConn() {
-        db = context.openOrCreateDatabase("cafemanagement.db", Context.MODE_PRIVATE, null);
+        db = context.openOrCreateDatabase("cafe.db", Context.MODE_PRIVATE, null);
         String sql = "CREATE TABLE if not exists menuList (category text not null, menu_no integer primary key, menu_name text not null, price integer default 0 not null, run integer not null check (run in (0,1)) default 1)";
         db.execSQL(sql);
         return db;
@@ -45,10 +45,8 @@ public class MenuDAO {
             db = dbConn();
             String sql = "select category, menu_no, menu_name, price, run from menuList order by menu_no";
             cursor = db.rawQuery(sql, null);
-            Log.i("test", "dblist: " + db);
-//
+
             while (cursor.moveToNext()) {
-                Log.i("test", "cursor.moveToNext(): " + cursor.moveToNext());
                 String category = cursor.getString(0);
                 int menuNo = cursor.getInt(1);
                 String menuName = cursor.getString(2);
@@ -66,31 +64,31 @@ public class MenuDAO {
         return menus;
     }
 
-    public void update(MenuDTO dto) {
-        SQLiteDatabase db = null;
-        try {
-            db = dbConn();
-            String sql = String.format("update menuList set category='%s', menu_name='%s', price=%d, run=%d where menu_no=%d", dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun(), dto.getMenuNo());
-            db.execSQL(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (db != null) db.close();
-        }
-    }
+//    public void update(MenuDTO dto) {
+//        SQLiteDatabase db = null;
+//        try {
+//            db = dbConn();
+//            String sql = String.format("update menuList set category='%s', menu_name='%s', price=%d, run=%d where menu_no=%d", dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun(), dto.getMenuNo());
+//            db.execSQL(sql);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (db != null) db.close();
+//        }
+//    }
 
-    public void delete(int menuNo) {
-        SQLiteDatabase db = null;
-        try {
-            db = dbConn();
-            String sql = "delete from menuList where menu_no=" + menuNo;
-            db.execSQL(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (db != null) db.close();
-        }
-    }
+//    public void delete(int menuNo) {
+//        SQLiteDatabase db = null;
+//        try {
+//            db = dbConn();
+//            String sql = "delete from menuList where menu_no=" + menuNo;
+//            db.execSQL(sql);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (db != null) db.close();
+//        }
+//    }
 
 //    public void inquiry(String category) {
 //        SQLiteDatabase db = null;

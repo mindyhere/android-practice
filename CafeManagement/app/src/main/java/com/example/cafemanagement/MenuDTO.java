@@ -17,17 +17,6 @@ public class MenuDTO implements Serializable {
         this.run = run;
     }
 
-    @Override
-    public String toString() {
-        return "MenuDTO{" +
-                "category='" + category + '\'' +
-                ", menuNo=" + menuNo +
-                ", menuName='" + menuName + '\'' +
-                ", price=" + price +
-                ", run=" + run +
-                '}';
-    }
-
     public String getCategory() {
         return category;
     }
@@ -66,5 +55,16 @@ public class MenuDTO implements Serializable {
 
     public void setRun(int run) {
         this.run = run;
+    }
+
+    @Override
+    public String toString() {
+        return "MenuDTO{" +
+                "category='" + category + '\'' +
+                ", menuNo=" + menuNo +
+                ", menuName='" + menuName + '\'' +
+                ", price=" + price +
+                ", run=" + run +
+                '}';
     }
 }
