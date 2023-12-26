@@ -64,55 +64,30 @@ public class MenuDAO {
         return menus;
     }
 
-//    public void update(MenuDTO dto) {
-//        SQLiteDatabase db = null;
-//        try {
-//            db = dbConn();
-//            String sql = String.format("update menuList set category='%s', menu_name='%s', price=%d, run=%d where menu_no=%d", dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun(), dto.getMenuNo());
-//            db.execSQL(sql);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (db != null) db.close();
-//        }
-//    }
+    public void update(MenuDTO dto) {
+        SQLiteDatabase db = null;
+        try {
+            db = dbConn();
+            String sql = String.format("update menuList set category='%s', menu_name='%s', price=%d, run=%d where menu_no=%d", dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun(), dto.getMenuNo());
+            db.execSQL(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) db.close();
+        }
+    }
 
-//    public void delete(int menuNo) {
-//        SQLiteDatabase db = null;
-//        try {
-//            db = dbConn();
-//            String sql = "delete from menuList where menu_no=" + menuNo;
-//            db.execSQL(sql);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (db != null) db.close();
-//        }
-//    }
+    public void delete(int menuNo) {
+        SQLiteDatabase db = null;
+        try {
+            db = dbConn();
+            String sql = "delete from menuList where menu_no=" + menuNo;
+            db.execSQL(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) db.close();
+        }
+    }
 
-//    public void inquiry(String category) {
-//        SQLiteDatabase db = null;
-//        try {
-//            db = dbConn();
-//            String sql = "select * from menuList where category=" + category;
-//            db.execSQL(sql);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (db != null) db.close();
-//        }
-//    }
-
-//    public void search(String menuName) {
-//        SQLiteDatabase db = null;
-//        try {
-//            db = dbConn();
-//            String sql = "select * from menuList where menu_name like " + "'%" + menuName + "%'";
-//            db.execSQL(sql);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (db != null) db.close();
-//        }
-//    }
 }

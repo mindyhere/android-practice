@@ -13,6 +13,15 @@
         android:theme="@style/Theme.CafeManagement"
         tools:targetApi="31">
         <activity
+            android:name=".CategoryViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".MenuEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".MenuAddActivity"
             android:exported="false" />
         <activity

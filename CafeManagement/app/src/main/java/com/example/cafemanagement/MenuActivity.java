@@ -1,13 +1,19 @@
 package com.example.cafemanagement;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +25,9 @@ import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
     Button btnAdd;
-    RecyclerView rv, rvHeader;
+    String[] arrCategory = {"ALL", "coffee", "beverage", "tea", "food"};
+    Spinner spinner;
+    RecyclerView rv;
     MenuDAO dao;
     List<MenuDTO> menus;
     RecyclerView.Adapter myAdapter;
@@ -28,6 +36,23 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrCategory);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                }
+        );
 
         rv = findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -97,7 +122,20 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //Edit 액티비티 추가
+                AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+                builder.setTitle("알림")
+                        .setMessage("등록된 상품정보를 수정하시겠습니까?")
+                        .setNegativeButton("No", null)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(MenuActivity.this, MenuEditActivity.class);
+                                MenuDTO dto = menus.get(getLayoutPosition());
+                                intent.putExtra("dto", dto);
+                                startActivity(intent);
+                            }
+                        })
+                        .show();
             }
         }
     }
