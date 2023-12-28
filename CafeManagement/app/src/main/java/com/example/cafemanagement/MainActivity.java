@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v) {
         Intent intent = null;
         if (v.getId() == R.id.btnMenu) {
-            //intent = new Intent(this, SpinnerActivity.class);
             intent = new Intent(this, MenuActivity.class);
         }
         startActivity(intent);

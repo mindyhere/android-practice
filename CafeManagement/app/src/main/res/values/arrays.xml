@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="categories">
+    <string-array name="group">
         <item>Coffee</item>
         <item>Beverage</item>
         <item>Tea</item>
         <item>Food</item>
+        <item>ALL</item>
     </string-array>
 </resources>

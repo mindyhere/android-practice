@@ -3,18 +3,60 @@ package com.example.cafemanagement;
 import java.io.Serializable;
 
 public class MenuDTO implements Serializable {
+    private String categoryId;
     private String category;
     private int menuNo;
     private String menuName;
+    private String menuId;
     private int price;
     private int run;
 
-    public MenuDTO(String category, int menuNo, String menuName, int price, int run) {
+    public MenuDTO(String categoryId, String category, int menuNo, String menuName, String menuId, int price, int run) {
+        this.categoryId = categoryId;
         this.category = category;
         this.menuNo = menuNo;
         this.menuName = menuName;
+        this.menuId = menuId;
         this.price = price;
         this.run = run;
+    }
+
+    public MenuDTO(String category, int menuNo, String menuName, String menuId, int price, int run) {
+//        this.categoryId = categoryId;
+        this.category = category;
+        this.menuNo = menuNo;
+        this.menuName = menuName;
+        this.menuId = menuId;
+        this.price = price;
+        this.run = run;
+    }
+
+    public MenuDTO(String category, String menuName, int price, int run) {
+        this.category = category;
+        this.menuName = menuName;
+        this.price = price;
+        this.run = run;
+    }
+
+    @Override
+    public String toString() {
+        return "MenuDTO{" +
+                "categoryId='" + categoryId + '\'' +
+                ", category='" + category + '\'' +
+                ", menuNo=" + menuNo +
+                ", menuName='" + menuName + '\'' +
+                ", menuId='" + menuId + '\'' +
+                ", price=" + price +
+                ", run=" + run +
+                '}';
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getCategory() {
@@ -41,6 +83,14 @@ public class MenuDTO implements Serializable {
         this.menuName = menuName;
     }
 
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
     public int getPrice() {
         return price;
     }
@@ -55,16 +105,5 @@ public class MenuDTO implements Serializable {
 
     public void setRun(int run) {
         this.run = run;
-    }
-
-    @Override
-    public String toString() {
-        return "MenuDTO{" +
-                "category='" + category + '\'' +
-                ", menuNo=" + menuNo +
-                ", menuName='" + menuName + '\'' +
-                ", price=" + price +
-                ", run=" + run +
-                '}';
     }
 }
