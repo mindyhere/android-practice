@@ -1,0 +1,195 @@
+package com.example.myapplication;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MenuDAO {
+    Context context;
+    SQLiteDatabase db;
+
+    public MenuDAO(Context context) {
+        this.context = context;
+    }
+
+    public SQLiteDatabase dbConn() {
+        db = context.openOrCreateDatabase("cafe.db", Context.MODE_PRIVATE, null);
+        String PRAGMA = "PRAGMA foreign_keys = ON";
+        String createCT = "CREATE TABLE if not exists categoryTab(category_id TEXT(2) PRIMARY KEY, category text UNIQUE)";
+        String createML = "CREATE TABLE if not exists menuList(" +
+                "category_id TEXT not null, menu_no integer primary key AUTOINCREMENT, " +
+                "menu_name text UNIQUE, menu_id TEXT AS (printf('%s%03d', category_id, menu_no)) stored, " +
+                "price integer default 0 not null, " +
+                "run integer not null check (run in (0,1)) default 0, " +
+                "foreign key (category_id) references categoryTab (category_id))";
+        String createView = "create view if not exists menuView as select category, menu_id, menu_name, price, run " +
+                "from categoryTab c, menuList m where c.category_id=m.category_id";
+        db.execSQL(PRAGMA);
+        db.execSQL(createML);
+        db.execSQL(createCT);
+        db.execSQL(createView);
+        Log.i("test", "**여기는 MenuDAO : dbConn ");
+
+        try {
+            String sql1 = "insert into categoryTab values ('cf', 'coffee')";
+            String sql2 = "insert into categoryTab values ('bv', 'beverage')";
+            String sql3 = "insert into categoryTab values ('te', 'tea')";
+            String sql4 = "insert into categoryTab values ('fd', 'food')";
+            db.execSQL(sql1);
+            db.execSQL(sql2);
+            db.execSQL(sql3);
+            db.execSQL(sql4);
+            Log.i("test", "**여기는 MenuDAO : " + " + " + sql1 + " + " + sql2 + " + " + sql3 + " + " + sql4);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return db;
+    }
+
+    public void insertDB(MenuDTO dto) {
+        SQLiteDatabase db = null;
+        try {
+            db = dbConn();
+            String sql = String.format("Insert into menuList (category_id, menu_name, price, run) " +
+                    "values((select category_id from categoryTab where category='%s'), '%s', %d, %d)",
+                    dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun());
+            db.execSQL(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) db.close();
+        }
+    }
+
+    //카테고리명 변경부분 고민해보기
+    public void update(MenuDTO dto) {
+        SQLiteDatabase db = null;
+        try {
+            db = dbConn();
+//            String sql = String.format("update menuList set menu_name='%s', price=%d, run=%d where menu_id=%s", dto.getMenuName(), dto.getPrice(), dto.getRun(), dto.getMenuId());
+            String sql = String.format("update menuList set \n" +
+                    "category_id=(select category_id from categoryTab where category='%s'), menu_name='%s', price=%d, run=%d " +
+                    "where menu_id=%s", dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun(), dto.getMenuId());
+            db.execSQL(sql);
+            Log.i("test", "**여기는 MenuDAO 업테이트 : " + sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) db.close();
+        }
+        Log.i("test", "**MenuDAO 업테이트 완료: " + dto.getCategoryId() + " + " + dto.getMenuId());
+    }
+
+    public void delete(String menuId) {
+        SQLiteDatabase db = null;
+        try {
+            db = dbConn();
+            String sql = "delete from menuList where menu_id=" + menuId;
+            db.execSQL(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) db.close();
+        }
+    }
+
+    public void addCategory(MenuDTO dto) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+
+        try {
+            db = dbConn();
+            String sqlCheck = "select exists (select * from categoryTab)";
+            cursor = db.rawQuery(sqlCheck, null);
+
+            if (cursor.getCount() == 0) {
+                Toast.makeText(context, "카테고리를 추가해주세요.", Toast.LENGTH_SHORT).show();
+            } else {
+                String sqlAdd = String.format("insert into categoryTab (category_id, category) values ('%s', '%s')", dto.getCategoryId(), dto.getCategory());
+                db.execSQL(sqlAdd);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) db.close();
+        }
+    }
+
+    public List<MenuDTO> list() {
+        List<MenuDTO> items = new ArrayList<>();
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+
+        try {
+            db = dbConn();
+            String sql = "select * from menuView order by category, menu_id";
+            cursor = db.rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                String category = cursor.getString(0);
+                String menuId = cursor.getString(1);
+                String menuName = cursor.getString(2);
+                int price = cursor.getInt(3);
+                int run = cursor.getInt(4);
+                items.add(new MenuDTO(category, menuId, menuName, price, run));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
+        }
+        return items;
+    }
+
+    public List<MenuDTO> list(int position) {
+        List<MenuDTO> items = new ArrayList<>();
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        String sql = null;
+
+        try {
+            db = dbConn();
+
+            switch (position) {
+                case 0: //ALL
+                    sql = "Select * from menuView order by category, menu_id";
+                    Log.i("test", "**여기는 MenuDAO sortTable : 분류선택 all");
+                    break;
+                case 1: //coffee
+                    sql = "Select * from menuView where category='coffee' order by menu_id;";
+                    break;
+                case 2: //beverage
+                    sql = "Select * from menuView where category='beverage' order by menu_id";
+                    break;
+                case 3: //tea
+                    sql = "Select * from menuView where category='tea' order by menu_id";
+                    break;
+                case 4: //food
+                    sql = "Select * from menuView where category='food' order by menu_id";
+                    break;
+            }
+
+            cursor = db.rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                String category = cursor.getString(0);
+                String menuId = cursor.getString(1);
+                String menuName = cursor.getString(2);
+                int price = cursor.getInt(3);
+                int run = cursor.getInt(4);
+                items.add(new MenuDTO(category, menuId, menuName, price, run));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
+        }
+        return items;
+    }
+}
+
