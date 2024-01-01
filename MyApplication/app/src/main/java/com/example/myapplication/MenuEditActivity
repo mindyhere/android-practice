@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +20,7 @@ import com.google.android.material.chip.Chip;
 
 public class MenuEditActivity extends AppCompatActivity implements View.OnClickListener {
     TextView tvTitle;
-    Spinner spinner;
-    EditText editMenuId, editMenuName, editPrice;
+    EditText editCategory, editMenuId, editMenuName, editPrice;
     Chip switchRun;
     Button btnUpdate, btnDelete;
     MenuDAO menuDao;
@@ -35,7 +33,7 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_menu_edit);
 
         tvTitle = findViewById(R.id.tvTitle);
-        spinner = findViewById(R.id.spinner);
+        editCategory = findViewById(R.id.editCategory);
         editMenuId = findViewById(R.id.editMenuId);
         editMenuName = findViewById(R.id.editMenuName);
         editPrice = findViewById(R.id.editPrice);
@@ -70,18 +68,17 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
         menuDao = new MenuDAO(this);
         Intent intent = getIntent();
         menuDto = (MenuDTO) intent.getSerializableExtra("dto");
-//        spinner.setEnabled(false);  상품분류 변경 못하게?
-//        spinner.getSelectedItem(menuDto.getCategory().toString());  기존 분류 값으로 세팅하는 방법?
+        //상품분류, 상품ID 변경 못하게
+        assert menuDto != null;
+        editCategory.setText(menuDao.findCategory(menuDto));
         editMenuId.setText(menuDto.getMenuId());
         editMenuName.setText(menuDto.getMenuName());
+//        editPrice.setText(Integer.toString(menuDto.getPrice()));
         editPrice.setText(Integer.toString(menuDto.getPrice()));
-        switch (menuDto.getRun()) {
-            case 1:
-                switchRun.setChecked(true);
-                switchRun.setText("판매중");
-            case 0:
-                switchRun.setChecked(false);
-                switchRun.setText("임시중단");
+        if (menuDto.getRun() == 1) {
+            switchRun.setChecked(true);
+        } else {
+            switchRun.setText("임시중단");
         }
     }
 
@@ -89,13 +86,13 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (v.getId() == R.id.btnUpdate) {
             try {
-                String category = spinner.getSelectedItem().toString(); //카테고리 처리방식을 어떻게...?
+                String category = editCategory.getText().toString();
                 String menuId = editMenuId.getText().toString();
                 String menuName = editMenuName.getText().toString();
                 if (TextUtils.isEmpty(editMenuName.getText())) {
-                    Toast.makeText(MenuEditActivity.this, "상품명을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MenuEditActivity.this, "상품정보를 확인해주세요.", Toast.LENGTH_SHORT).show();
                     editMenuName.requestFocus();
-                    return;
+//                    return;
                 }
                 int price = Integer.parseInt(editPrice.getText().toString());
                 int run = (switchRun.getText() == "판매중" ? 1 : 0);
@@ -120,7 +117,7 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            menuDao.delete(menuDto.getMenuId());
+                            menuDao.delete(menuDto);
                             Toast.makeText(MenuEditActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
