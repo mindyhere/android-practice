@@ -5,7 +5,6 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:debuggable="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,17 +14,17 @@
         android:windowSoftInputMode="stateAlwaysHidden"
         tools:targetApi="31">
         <activity
-            android:name=".AddCategoryActivity"
-            android:theme="@style/Theme.MyDialog"
-            android:exported="false" />
-        <activity
-            android:name=".MenuBoardActivity"
-            android:exported="false" />
+            android:name=".CustomDialog"
+            android:exported="false"
+            android:theme="@style/Theme.MyDialog" />
         <activity
             android:name=".MenuEditActivity"
             android:exported="false" />
         <activity
             android:name=".MenuAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuBoardActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
