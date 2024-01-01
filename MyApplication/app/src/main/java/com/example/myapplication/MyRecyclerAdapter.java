@@ -29,7 +29,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_row, parent, false);
+        View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, parent, false);
         return new MyRecyclerAdapter.ViewHolder(rowItem);
     }
 
