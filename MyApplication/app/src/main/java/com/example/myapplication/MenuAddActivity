@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -90,8 +89,6 @@ public class MenuAddActivity extends AppCompatActivity {
         items = new ArrayList<>();
         menuDao = new MenuDAO(this);
 
-//        switchRun.setText("판매중");
-        switchRun.isChecked();
         switchRun.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -102,6 +99,7 @@ public class MenuAddActivity extends AppCompatActivity {
                 }
             }
         });
+        switchRun.setChecked(true);
 
         tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,33 +114,22 @@ public class MenuAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     String category = spinner.getSelectedItem().toString();
-                    if (category == "분류") {
-                        Toast.makeText(MenuAddActivity.this, "분류를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
                     String menuName = addMenuName.getText().toString();
                     if (TextUtils.isEmpty(addMenuName.getText())) {
-                        Toast.makeText(MenuAddActivity.this, "상품명을 입력하세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuAddActivity.this, "상품정보를 확인해주세요.", Toast.LENGTH_SHORT).show();
                         addMenuName.requestFocus();
                         return;
                     }
                     int price = Integer.parseInt(addPrice.getText().toString());
                     int run = (switchRun.getText() == "판매중" ? 1 : 0);
-//                    2안 JDK14 이상에서는 된다는 건가...?
-//                        run = (switch (switchRun.getText().toString()) {
-//                            case "선택":
-//                                Toast.makeText(MenuAddActivity.this, "운영여부를 확인해주세요.", Toast.LENGTH_SHORT).show();
-//                                int run = -1;
-//                            case "판매중":
-//                                run = 1;
-//                            case "임시중단":
-//                                run = 0;
-//
-//                        });
+
                     adapterR.items.add(new MenuDTO(category, menuName, price, run));
                     adapterR.notifyDataSetChanged();
                     Toast.makeText(MenuAddActivity.this, "임시저장 되었습니다.\n" + "등록완료를 눌러 메뉴를 추가해주세요.", Toast.LENGTH_SHORT).show();
+
+                    spinner.setSelection(group.size() - 1);
+                    addMenuName.setText("");
+                    addPrice.setText("");
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(MenuAddActivity.this, "상품정보를 확인해주세요.", Toast.LENGTH_SHORT).show();
@@ -172,7 +159,7 @@ public class MenuAddActivity extends AppCompatActivity {
                         for (int i = 0; i < items.size(); i++) {
                             menuDao.insertDB(items.get(i));
                         }
-                        Toast.makeText(MenuAddActivity.this, "메뉴등록이 완료되었습니다. : " + items.size() + "개", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuAddActivity.this, items.size()+"개 품목이 추가되었습니다.", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } catch (Exception e) {
