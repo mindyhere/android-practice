@@ -100,4 +100,3 @@ public class MenuDTO implements Serializable {
         this.run = run;
     }
 }
-
