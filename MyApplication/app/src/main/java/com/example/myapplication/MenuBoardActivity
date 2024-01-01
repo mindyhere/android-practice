@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -15,60 +17,83 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MenuBoardActivity extends AppCompatActivity {
+    TextView tvTitle;
     Button btnAdd, btnHome;
-    String[] group = {"ALL", "coffee", "beverage", "tea", "food"};
+    //    String[] group = {"ALL", "coffee", "beverage", "tea", "food"};
     Spinner spinner;
     RecyclerView rv;
     MenuDAO menuDao;
     List<MenuDTO> items;
     MyRecyclerAdapter adapterR;
+    boolean checkFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_board);
 
+        tvTitle = findViewById(R.id.tvTitle);
+        btnAdd = findViewById(R.id.btnSave);
+        btnHome = findViewById(R.id.btnHome);
         rv = findViewById(R.id.rv);
+        spinner = findViewById(R.id.spinner);
+
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         rv.addItemDecoration(new DividerItemDecoration(rv.getContext(), DividerItemDecoration.VERTICAL));
-
         adapterR = new MyRecyclerAdapter(MenuBoardActivity.this, items, "edit");
         rv.setAdapter(adapterR);
+
         items = new ArrayList<>();
-
-        btnAdd = findViewById(R.id.btnSave);
-        btnHome = findViewById(R.id.btnHome);
-        spinner = findViewById(R.id.spinner);
-
         menuDao = new MenuDAO(this);
 
-        //카테고리별 상품목록 조회하기
-        ArrayAdapter adapterS = new ArrayAdapter(this, android.R.layout.simple_spinner_item, group);
+        //분류별 목록조회
+        List<String> group = Arrays.asList(getResources().getStringArray(R.array.group));
+        ArrayAdapter adapterS = new ArrayAdapter(MenuBoardActivity.this, android.R.layout.simple_spinner_item, group);
         spinner.setAdapter(adapterS);
+        spinner.setSelection(group.size() - 1);
         spinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        items = menuDao.list(position);
-                        adapterR.notifyDataSetChanged();
-                        Log.i("test", "여기는 스피너 정렬기준 선택" + position + "번 항목선택" + " -> " + adapterR);
+                        if (checkFirst) {
+                            spinner.setSelection(group.size() - 1);
+                            checkFirst = false;
+                        } else {
+                            items = menuDao.list(position);
+                            adapterR.notifyDataSetChanged();
+                            Log.i("test", "여기는 onCreate 스피너set" + position + "번 항목선택" + " + " + spinner.getSelectedItemPosition() + " + " + items.size() + "개");
+                        }
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
+                        Toast.makeText(MenuBoardActivity.this, "분류를 선택해주세요.", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
 
+        items = menuDao.list(spinner.getSelectedItemPosition());
+        Log.i("test", "상품목록조회" + spinner.getSelectedItemPosition() + "번");
+
+        tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("**TEST", "Title onClick : ");
+                CustomDialog dialog = new CustomDialog(MenuBoardActivity.this);
+                dialog.show();
+            }
+        });
+
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuBoardActivity.this, MainActivity.class);
-                startActivity(intent);
+                Toast.makeText(MenuBoardActivity.this, "처음화면으로 들아갑니다.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
@@ -76,6 +101,7 @@ public class MenuBoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuBoardActivity.this, MenuAddActivity.class);
+                Toast.makeText(MenuBoardActivity.this, "신규등록을 위해 상품정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -84,7 +110,7 @@ public class MenuBoardActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         items = menuDao.list();
-        Log.i("test", "상품목록:" + items);
+        Log.i("test", "상품목록 onResume():" + items);
         adapterR = new MyRecyclerAdapter(MenuBoardActivity.this, items, "edit");
         rv.setAdapter(adapterR);
     }
