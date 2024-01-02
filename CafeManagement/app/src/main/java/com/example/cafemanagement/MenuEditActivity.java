@@ -1,7 +1,5 @@
 package com.example.cafemanagement;
 
-import static java.lang.Integer.valueOf;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,8 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +20,11 @@ import com.google.android.material.chip.Chip;
 
 public class MenuEditActivity extends AppCompatActivity implements View.OnClickListener {
     TextView tvTitle;
-    Spinner spinner;
-    EditText editMenuNo, editMenuName, editPrice;
+    EditText editCategory, editMenuId, editMenuName, editPrice;
     Chip switchRun;
     Button btnUpdate, btnDelete;
-    MenuDAO dao;
-    MenuDTO dto;
+    MenuDAO menuDao;
+    MenuDTO menuDto;
     int run;
 
     @Override
@@ -38,13 +33,16 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_menu_edit);
 
         tvTitle = findViewById(R.id.tvTitle);
-        spinner = findViewById(R.id.spinner);
-        editMenuNo = findViewById(R.id.editMenuNo);
+        editCategory = findViewById(R.id.editCategory);
+        editMenuId = findViewById(R.id.editMenuId);
         editMenuName = findViewById(R.id.editMenuName);
         editPrice = findViewById(R.id.editPrice);
         switchRun = findViewById(R.id.switchRun);
         btnUpdate = findViewById(R.id.btnUpdate);
         btnDelete = findViewById(R.id.btnDelete);
+
+        btnUpdate.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
 
         tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,20 +65,19 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        dao = new MenuDAO(this);
+        menuDao = new MenuDAO(this);
         Intent intent = getIntent();
-        dto = (MenuDTO) intent.getSerializableExtra("dto");
-//        editMenuNo.setText(Integer.toString(dto.getMenuNo()));
-        editMenuNo.setText(dto.getMenuId());
-        editMenuName.setText(dto.getMenuName());
-        editPrice.setText(Integer.toString(dto.getPrice()));
-        btnUpdate.setOnClickListener(this);
-        btnDelete.setOnClickListener(this);
-        if (valueOf(dto.getRun()) == 1) {
+        menuDto = (MenuDTO) intent.getSerializableExtra("dto");
+        //상품분류, 상품ID 변경 못하게
+        assert menuDto != null;
+        editCategory.setText(menuDao.findCategory(menuDto));
+        editMenuId.setText(menuDto.getMenuId());
+        editMenuName.setText(menuDto.getMenuName());
+//        editPrice.setText(Integer.toString(menuDto.getPrice()));
+        editPrice.setText(Integer.toString(menuDto.getPrice()));
+        if (menuDto.getRun() == 1) {
             switchRun.setChecked(true);
-            switchRun.setText("판매중");
         } else {
-            switchRun.setChecked(false);
             switchRun.setText("임시중단");
         }
     }
@@ -89,24 +86,25 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (v.getId() == R.id.btnUpdate) {
             try {
-                String category = spinner.getSelectedItem().toString();
-//                int menuNo = Integer.parseInt(editMenuNo.getText().toString());
-                String menuId = editMenuNo.getText().toString();
+                String category = editCategory.getText().toString();
+                String menuId = editMenuId.getText().toString();
                 String menuName = editMenuName.getText().toString();
                 if (TextUtils.isEmpty(editMenuName.getText())) {
-                    Toast.makeText(MenuEditActivity.this, "상품명을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MenuEditActivity.this, "상품정보를 확인해주세요.", Toast.LENGTH_SHORT).show();
                     editMenuName.requestFocus();
                     return;
                 }
                 int price = Integer.parseInt(editPrice.getText().toString());
+                int run = (switchRun.getText() == "판매중" ? 1 : 0);
 
-                dto.setCategory(category);
-                dto.setMenuId(menuId);
-                dto.setMenuName(menuName);
-                dto.setPrice(price);
-                dto.setRun(run);
-                dao.update(dto);
-                Toast.makeText(MenuEditActivity.this, "메뉴수정 완료", Toast.LENGTH_SHORT).show();
+                menuDto.setCategory(category);
+                menuDto.setMenuId(menuId);
+                menuDto.setMenuName(menuName);
+                menuDto.setPrice(price);
+                menuDto.setRun(run);
+
+                menuDao.update(menuDto);
+                Toast.makeText(MenuEditActivity.this, "상품정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -119,8 +117,8 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dao.delete(dto.getMenuId());
-                            Toast.makeText(MenuEditActivity.this, "메뉴삭제 완료", Toast.LENGTH_SHORT).show();
+                            menuDao.delete(menuDto);
+                            Toast.makeText(MenuEditActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     })

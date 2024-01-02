@@ -1,6 +1,5 @@
 package com.example.cafemanagement;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,56 +17,51 @@ import java.util.List;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
     Context context;
-    List<MenuDTO> menus;
+    List<MenuDTO> items;
     static String option = "";
 
     public MyRecyclerAdapter(Context context, List<MenuDTO> menus, String option) {
         this.context = context;
-        this.menus = menus;
+        this.items = menus;
         this.option = option;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_row, parent, false);
+        View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, parent, false);
         return new MyRecyclerAdapter.ViewHolder(rowItem);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MenuDTO dto = menus.get(position);
-        holder.tvCategory.setText(dto.getCategory());
-//        holder.tvMenuNo.setText(dto.getMenuNo() + "");
-        holder.tvMenuName.setText(dto.getMenuName());
-        holder.tvPrice.setText(dto.getPrice() + "");
-        if (dto.getRun() == 1) {
+        MenuDTO menuDto = items.get(position);
+        holder.tvCategory.setText(menuDto.getCategory());
+        holder.tvMenuName.setText(menuDto.getMenuName());
+        holder.tvPrice.setText(menuDto.getPrice() + "");
+        if (menuDto.getRun() == 1) {
             holder.tvRun.setText("○");
         } else {
             holder.tvRun.setText("Ⅹ");
         }
     }
 
-
     @Override
     public int getItemCount() {
-        Log.i("test", "상품개수: " + menus.size() + "");
-        return (null != menus ? menus.size() : 0);
+        Log.i("test", "상품개수: " + items.size() + "");
+        return (null != items ? items.size() : 0);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvCategory, tvMenuName, tvPrice, tvRun;
-//        private TextView tvMenuNo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvCategory = itemView.findViewById(R.id.tvCategory);
-//            tvMenuNo = itemView.findViewById(R.id.tvMenuNo);
             tvMenuName = itemView.findViewById(R.id.tvMenuName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvRun = itemView.findViewById(R.id.tvRun);
-
 
             tvMenuName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -82,8 +76,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             Intent intent = new Intent(context, MenuEditActivity.class);
-                                            MenuDTO dto = menus.get(getLayoutPosition());
-                                            intent.putExtra("dto", dto);
+                                            MenuDTO menuDto = items.get(getLayoutPosition());
+                                            intent.putExtra("dto", menuDto);
                                             context.startActivity(intent);
                                         }
                                     })
@@ -96,9 +90,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            menus.remove(getLayoutPosition());
+                                            items.remove(getLayoutPosition());
                                             notifyItemRemoved(getLayoutPosition());
-                                            notifyItemRangeChanged(getLayoutPosition(), menus.size());
+                                            notifyItemRangeChanged(getLayoutPosition(), items.size());
                                         }
                                     })
                                     .show();

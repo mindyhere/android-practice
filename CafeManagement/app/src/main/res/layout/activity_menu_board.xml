@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="false"
     android:orientation="vertical">
 
     <TextView
@@ -16,22 +14,51 @@
         android:textAlignment="center"
         android:textSize="25sp" />
 
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/editSerch"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="48dp"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:layout_weight="8"-->
+    <!--            android:ems="10"-->
+    <!--            android:hint="상품분류를 입력하세요."-->
+    <!--            android:inputType="text"-->
+    <!--            android:textSize="16sp" />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/btnSearch"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="48dp"-->
+    <!--            android:layout_marginEnd="15dp"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:text="검색" />-->
+
+    <!--    </LinearLayout>-->
+
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp" />
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:entries="@array/group" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="#DCD9D9"
         android:orientation="horizontal"
         android:textAlignment="center">
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/textView3"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,7 +67,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView10"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,7 +76,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,7 +85,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,11 +98,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
-        android:layout_weight="1"
-        tools:listitem="@layout/menu_row" />
+        android:layout_marginBottom="16dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,11 +115,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick"
-            android:text="Home"
+            android:text="홈화면"
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -14,16 +14,22 @@
         android:windowSoftInputMode="stateAlwaysHidden"
         tools:targetApi="31">
         <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DialogActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Custum" -->
+        <!-- android:exported="false" -->
+        <!-- android:theme="@style/Theme.MyDialog" /> -->
+        <activity
             android:name=".MenuEditActivity"
             android:exported="false" />
         <activity
             android:name=".MenuAddActivity"
             android:exported="false" />
         <activity
-            android:name=".MenuActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SpinnerActivity"
+            android:name=".MenuBoardActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

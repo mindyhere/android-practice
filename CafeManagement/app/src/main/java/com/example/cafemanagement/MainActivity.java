@@ -1,10 +1,10 @@
 package com.example.cafemanagement;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v) {
         Intent intent = null;
         if (v.getId() == R.id.btnMenu) {
-            intent = new Intent(this, MenuActivity.class);
+            intent = new Intent(this, MenuBoardActivity.class);
         }
         startActivity(intent);
     }

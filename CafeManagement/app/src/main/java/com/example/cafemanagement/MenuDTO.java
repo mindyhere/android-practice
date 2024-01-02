@@ -11,22 +11,15 @@ public class MenuDTO implements Serializable {
     private int price;
     private int run;
 
-    public MenuDTO(String categoryId, String category, int menuNo, String menuName, String menuId, int price, int run) {
+    public MenuDTO(String categoryId, String category) {
         this.categoryId = categoryId;
         this.category = category;
-        this.menuNo = menuNo;
-        this.menuName = menuName;
-        this.menuId = menuId;
-        this.price = price;
-        this.run = run;
     }
 
-    public MenuDTO(String category, int menuNo, String menuName, String menuId, int price, int run) {
-//        this.categoryId = categoryId;
+    public MenuDTO(String category, String menuId, String menuName, int price, int run) {
         this.category = category;
-        this.menuNo = menuNo;
-        this.menuName = menuName;
         this.menuId = menuId;
+        this.menuName = menuName;
         this.price = price;
         this.run = run;
     }

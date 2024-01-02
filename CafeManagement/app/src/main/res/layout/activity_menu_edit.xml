@@ -10,6 +10,7 @@
     android:textAlignment="center"
     tools:context=".MenuEditActivity">
 
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
@@ -24,18 +25,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/spinner"
+    <EditText
+        android:id="@+id/editCategory"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="8dp"
-        android:entries="@array/group" />
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:focusable="false"
+        android:hint='상품분류'
+        android:inputType="text"
+        android:textColor="#BFBFBF"
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editMenuNo"
+        android:id="@+id/editMenuId"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="12dp"
@@ -47,7 +55,7 @@
         android:ems="10"
         android:focusable="false"
         android:hint='상품번호'
-        android:inputType="number"
+        android:inputType="text"
         android:textColor="#BFBFBF"
         android:textStyle="bold" />
 
@@ -130,5 +138,4 @@
             android:text="삭제"
             android:textSize="20sp" />
     </LinearLayout>
-
 </LinearLayout>
