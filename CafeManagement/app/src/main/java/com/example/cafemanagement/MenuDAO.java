@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +68,6 @@ public class MenuDAO {
             db = dbConn();
             String sql = String.format("Insert into menuList (category_id, menu_name, price, run) values((select category_id from categoryTab where category='%s'), '%s', %d, %d)", dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun());
             db.execSQL(sql);
-            Log.i("test", "insert SQL : " + sql);
-            Log.i("test", "**여기는 MenuDAO 인서트 : " + dto.getCategoryId());
-
         } catch (
                 Exception e) {
             e.printStackTrace();
@@ -88,13 +84,11 @@ public class MenuDAO {
                     "category_id=(select category_id from categoryTab where category='%s'), menu_name='%s', price=%d, run=%d " +
                     "where menu_id='%s'", dto.getCategory(), dto.getMenuName(), dto.getPrice(), dto.getRun(), dto.getMenuId());
             db.execSQL(sql);
-            Log.i("test", "**여기는 MenuDAO 업테이트 : " + sql);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (db != null) db.close();
         }
-        Log.i("test", "**MenuDAO 업테이트 완료: " + dto.getCategoryId() + " + " + dto.getMenuId());
     }
 
     public void delete(MenuDTO dto) {
@@ -103,13 +97,11 @@ public class MenuDAO {
             db = dbConn();
             String sql = "delete from menuList where menu_id='" + dto.getMenuId() + "'";
             db.execSQL(sql);
-            Log.i("test", "**여기는 MenuDAO delete : " + sql + " + " + dto.getMenuId());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (db != null) db.close();
         }
-        Log.i("test", "**여기는 MenuDAO 삭제완료");
     }
 
     public String findCategory(MenuDTO dto) {
@@ -148,7 +140,7 @@ public class MenuDAO {
 
         try {
             db = dbConn();
-            String sql = "select * from menuView order by category, menu_id";
+            String sql = "select * from menuView";
             cursor = db.rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 String category = cursor.getString(0);
@@ -167,34 +159,27 @@ public class MenuDAO {
         return items;
     }
 
-    public List<MenuDTO> list(int position) {
+    public List<MenuDTO> list(String keyword) {
         List<MenuDTO> items = new ArrayList<>();
         SQLiteDatabase db = null;
         Cursor cursor = null;
-        String sql = null;
+        String sql = "";
 
         try {
             db = dbConn();
-
-            switch (position) {
-                case 0: //coffee
-                    sql = "Select * from menuView where category='coffee' order by menu_id;";
-                    break;
-                case 1: //beverage
-                    sql = "Select * from menuView where category='beverage' order by menu_id";
-                    break;
-                case 2: //tea
-                    sql = "Select * from menuView where category='tea' order by menu_id";
-                    break;
-                case 3: //food
-                    sql = "Select * from menuView where category='food' order by menu_id";
-                    break;
-                case 4: //ALL(초기화)
-                    sql = "Select * from menuView order by category, menu_id";
-                    break;
+            if (keyword.equals("coffee")) {
+                sql = "Select * from menuView where category='coffee' order by menu_id";
+            } else if (keyword.equals("beverage")) {
+                sql = "Select * from menuView where category='beverage' order by menu_id";
+            } else if (keyword.equals("tea")) {
+                sql = "Select * from menuView where category='tea' order by menu_id";
+            } else if (keyword.equals("food")) {
+                sql = "Select * from menuView where category='food' order by menu_id";
+            } else if (keyword.equals("all") || keyword.equals("")) {
+                sql = "Select * from menuView order by category, menu_id";
+            } else {
+                sql = "Select * from menuView where menu_name like '%" + keyword + "%' order by category, menu_id";
             }
-            Log.i("test", "여기는 DAO list(int position)" + position + "번 항목선택" + " -> " + sql);
-
             cursor = db.rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 String category = cursor.getString(0);
@@ -203,15 +188,14 @@ public class MenuDAO {
                 int price = cursor.getInt(3);
                 int run = cursor.getInt(4);
                 items.add(new MenuDTO(category, menuId, menuName, price, run));
-                Log.i("test", "여기는 DAO list(int position) : items.size() " + items.size() + "개");
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null) cursor.close();
             if (db != null) db.close();
         }
-        Log.i("test", "여기는 DAO list(int position) : " + items.size() + "개 return");
         return items;
     }
 }

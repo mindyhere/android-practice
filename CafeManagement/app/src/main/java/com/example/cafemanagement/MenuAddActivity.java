@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -11,8 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MenuAddActivity extends AppCompatActivity {
-    TextView tvTitle;
+    ImageView iv;
     Spinner spinner;
     EditText addMenuName, addPrice;
     Button btnSave, btnComplete;
@@ -36,24 +38,25 @@ public class MenuAddActivity extends AppCompatActivity {
     RecyclerView rv;
     MyRecyclerAdapter adapterR;
     List<MenuDTO> items;
-    String[] id = {"cf", "bv", "te", "fd"};
     private boolean checkFirst = true;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_add);
 
-        tvTitle = findViewById(R.id.tvTitle);
+        iv = findViewById(R.id.iv);
         spinner = findViewById(R.id.spinner);
         addMenuName = findViewById(R.id.addMenuName);
         addPrice = findViewById(R.id.addPrice);
         switchRun = findViewById(R.id.switchRun);
+        layout = findViewById(R.id.layout);
 
         btnSave = findViewById(R.id.btnSave);
         btnComplete = findViewById(R.id.btnComplete);
-
         rv = findViewById(R.id.rv);
+
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.addItemDecoration(new DividerItemDecoration(rv.getContext(), DividerItemDecoration.VERTICAL));
@@ -90,6 +93,22 @@ public class MenuAddActivity extends AppCompatActivity {
         items = new ArrayList<>();
         menuDao = new MenuDAO(this);
 
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MenuAddActivity.this, "이전 화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hidekeyboard();
+                return false;
+            }
+        });
+
         switchRun.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -102,49 +121,38 @@ public class MenuAddActivity extends AppCompatActivity {
         });
         switchRun.setChecked(true);
 
-        tvTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MenuAddActivity.this, "이전 화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("test", "onclick");
+                String category = (spinner.getSelectedItem().equals("분류") ? "" : spinner.getSelectedItem().toString());
+                String menuName = addMenuName.getText().toString();
+                int price = Integer.parseInt(addPrice.getText().toString());
+                int run = (switchRun.getText() == "판매중" ? 1 : 0);
+
                 try {
-                    String category = spinner.getSelectedItem().toString();
-                    String menuName = addMenuName.getText().toString();
-                    if (TextUtils.isEmpty(addMenuName.getText())) {
+                    if (TextUtils.isEmpty(addMenuName.getText()) || category.equals("")) {
                         Toast.makeText(MenuAddActivity.this, "상품정보를 확인해주세요.", Toast.LENGTH_SHORT).show();
                         addMenuName.requestFocus();
                         return;
                     }
-                    int price = Integer.parseInt(addPrice.getText().toString());
-                    int run = (switchRun.getText() == "판매중" ? 1 : 0);
-
                     adapterR.items.add(new MenuDTO(category, menuName, price, run));
                     adapterR.notifyDataSetChanged();
-                    Toast.makeText(MenuAddActivity.this, "임시저장 되었습니다.\n" + "등록완료를 눌러 메뉴를 추가해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MenuAddActivity.this, "임시저장 되었습니다.", Toast.LENGTH_SHORT).show();
 
                     spinner.setSelection(group.size() - 1);
                     addMenuName.setText("");
                     addPrice.setText("");
-
-
                 } catch (
                         Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(MenuAddActivity.this, "상품정보를 확인해주세요.", Toast.LENGTH_SHORT).show();
 
                     if (TextUtils.isEmpty(addMenuName.getText())) {
                         addMenuName.requestFocus();
                     } else {
                         addPrice.requestFocus();
                     }
-                    Log.i("test", "여기는 임시저장 에러 : " + items.size() + "개");
+                    Toast.makeText(MenuAddActivity.this, "상품정보를 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -152,8 +160,6 @@ public class MenuAddActivity extends AppCompatActivity {
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("test", "여기는 Complete : " + items.size() + "개");
-                Log.i("test", "items:" + items);
                 try {
                     if (items.size() == 0) {
                         Toast.makeText(MenuAddActivity.this, "새로 추가한 메뉴가 없습니다. 임시저장 목록을 확인해주세요.", Toast.LENGTH_SHORT).show();
@@ -167,12 +173,10 @@ public class MenuAddActivity extends AppCompatActivity {
                             menuDao.insertDB(items.get(i));
                         }
                         Toast.makeText(MenuAddActivity.this, items.size() + "개 품목이 추가되었습니다.", Toast.LENGTH_SHORT).show();
-                        Log.i("test", "여기는 Complete : " + items.size() + "개");
                         finish();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.i("test", "여기는 등록완료 에러 : " + items.size() + "개");
                 }
             }
         });
@@ -185,8 +189,8 @@ public class MenuAddActivity extends AppCompatActivity {
         rv.setAdapter(adapterR);
     }
 
-    public void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    public void hidekeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

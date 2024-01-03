@@ -11,11 +11,6 @@ public class MenuDTO implements Serializable {
     private int price;
     private int run;
 
-    public MenuDTO(String categoryId, String category) {
-        this.categoryId = categoryId;
-        this.category = category;
-    }
-
     public MenuDTO(String category, String menuId, String menuName, int price, int run) {
         this.category = category;
         this.menuId = menuId;

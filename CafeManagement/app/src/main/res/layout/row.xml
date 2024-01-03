@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
+    android:background="#FDF7E4"
     android:orientation="horizontal">
 
     <TextView
@@ -10,34 +11,42 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:fontFamily="@font/nanumbarungothic"
         android:hint="분류"
         android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textColorHint="#BBAB8C" />
 
     <TextView
         android:id="@+id/tvMenuName"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:fontFamily="@font/nanumbarungothic"
         android:hint="상품명"
         android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textColorHint="#BBAB8C" />
 
     <TextView
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:fontFamily="@font/nanumbarungothic"
         android:hint="판매가"
         android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textColorHint="#BBAB8C" />
 
     <TextView
         android:id="@+id/tvRun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:fontFamily="@font/nanumbarungothic"
         android:hint="O/X"
         android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textColorHint="#BBAB8C" />
 </LinearLayout>

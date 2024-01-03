@@ -11,25 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CafeManagement"
-        android:windowSoftInputMode="stateAlwaysHidden"
+        android:windowSoftInputMode="stateUnspecified"
         tools:targetApi="31">
-        <activity
-            android:name=".SearchActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DialogActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".Custum" -->
-        <!-- android:exported="false" -->
-        <!-- android:theme="@style/Theme.MyDialog" /> -->
+
         <activity
             android:name=".MenuEditActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:exported="false" />
         <activity
             android:name=".MenuAddActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:exported="false" />
         <activity
             android:name=".MenuBoardActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

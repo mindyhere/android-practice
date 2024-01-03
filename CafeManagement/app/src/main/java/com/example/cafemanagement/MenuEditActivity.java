@@ -6,20 +6,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.chip.Chip;
 
+
 public class MenuEditActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView tvTitle;
+    LinearLayout layout;
+    ImageView iv;
     EditText editCategory, editMenuId, editMenuName, editPrice;
     Chip switchRun;
     Button btnUpdate, btnDelete;
@@ -32,7 +36,8 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_edit);
 
-        tvTitle = findViewById(R.id.tvTitle);
+        layout = findViewById(R.id.layout);
+        iv = findViewById(R.id.iv);
         editCategory = findViewById(R.id.editCategory);
         editMenuId = findViewById(R.id.editMenuId);
         editMenuName = findViewById(R.id.editMenuName);
@@ -44,7 +49,15 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
         btnUpdate.setOnClickListener(this);
         btnDelete.setOnClickListener(this);
 
-        tvTitle.setOnClickListener(new View.OnClickListener() {
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hidekeyboard();
+                return false;
+            }
+        });
+
+        iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MenuEditActivity.this, "이전 화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
@@ -73,7 +86,6 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
         editCategory.setText(menuDao.findCategory(menuDto));
         editMenuId.setText(menuDto.getMenuId());
         editMenuName.setText(menuDto.getMenuName());
-//        editPrice.setText(Integer.toString(menuDto.getPrice()));
         editPrice.setText(Integer.toString(menuDto.getPrice()));
         if (menuDto.getRun() == 1) {
             switchRun.setChecked(true);
@@ -127,8 +139,8 @@ public class MenuEditActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    public void hidekeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
