@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
+    android:id="@+id/layout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
@@ -19,8 +19,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:clickable="true"
-        android:focusable="true"
         android:focusableInTouchMode="false"
         app:srcCompat="@drawable/beans"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -56,7 +54,7 @@
         android:ems="10"
         android:focusable="false"
         android:fontFamily="@font/nanumbarungothic"
-        android:hint='상품번호'
+        android:hint='상품코드'
         android:inputType="text"
         android:textColor="#BBAB8C"
         android:textColorHint="#BBAB8C" />
@@ -71,7 +69,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:fontFamily="@font/nanumbarungothic"
-        android:hint="메뉴 이름을 입력해주세요."
+        android:hint="상품명을 입력해주세요(한글/영어)"
         android:inputType="text"
         android:textColor="#000000"
         android:textColorHint="#BBAB8C" />
@@ -86,7 +84,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:fontFamily="@font/nanumbarungothic"
-        android:hint="가격을 입력해주세요."
+        android:hint="가격을 입력해주세요"
         android:inputType="number"
         android:textColor="#000000"
         android:textColorHint="#BBAB8C" />
@@ -134,34 +132,36 @@
         android:layout_marginTop="12dp"
         android:orientation="horizontal">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/round_border"
+            android:textColor="#232323"
+            android:textSize="20dp"
             android:id="@+id/btnUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:background="#BBAB8C"
             android:fontFamily="@font/nanumbarungothicbold"
             android:gravity="center|center_horizontal|center_vertical"
             android:text="수정"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textAlignment="center" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/round_border"
+            android:textColor="#232323"
+            android:textSize="20dp"
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:background="#BBAB8C"
+
             android:fontFamily="@font/nanumbarungothicbold"
             android:gravity="center|center_horizontal|center_vertical"
             android:text="삭제"
             android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+             />
     </LinearLayout>
 </LinearLayout>
