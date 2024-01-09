@@ -1,35 +1,24 @@
 package com.example.cafemanagement;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.WindowDecorActionBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,8 +52,7 @@ public class OrdersActivity extends AppCompatActivity {
         iv2 = findViewById(R.id.iv2);
         rv.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         dao = new OrdersDAO(this);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv.getContext(), new LinearLayoutManager(this).getOrientation());
-//        rv.addItemDecoration(dividerItemDecoration); //경계선설정
+
         iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +122,7 @@ public class OrdersActivity extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_row,parent,false);
+            View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_row, parent, false);
             return new ViewHolder(rowItem);
         }
 
@@ -142,10 +130,10 @@ public class OrdersActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             OrdersDTO dto = items.get(position);
             holder.txtDate.setText(dto.getOrder_date());
-            holder.txtOrdernum.setText(String.valueOf(dto.getOrder_num())+"번");
+            holder.txtOrdernum.setText(String.valueOf(dto.getOrder_num()) + "번");
             holder.txtMenuno.setText(dto.getMenu_name());
-            holder.txtAmount.setText(String.valueOf(dto.getAmount())+"개");
-            holder.txtTotal.setText(String.valueOf(dto.getTotal_price())+"원");
+            holder.txtAmount.setText(String.valueOf(dto.getAmount()) + "개");
+            holder.txtTotal.setText(String.valueOf(dto.getTotal_price()) + "원");
         }
 
         @Override
@@ -154,9 +142,9 @@ public class OrdersActivity extends AppCompatActivity {
             return items.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder  {
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
-            private TextView txtDate,txtOrdernum,txtMenuno,txtAmount,txtTotal;
+            private TextView txtDate, txtOrdernum, txtMenuno, txtAmount, txtTotal;
 
             public ViewHolder(View view) {
                 super(view);
@@ -169,12 +157,13 @@ public class OrdersActivity extends AppCompatActivity {
             }
         }
     }
+
     class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
         @NonNull
         @Override
         public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_row,parent,false);
+            View rowItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_row, parent, false);
             return new OrderViewHolder(rowItem);
         }
 
@@ -182,18 +171,19 @@ public class OrdersActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
             OrdersDTO dto = items1.get(position);
             holder.txtDate.setText(dto.getOrder_date());
-            holder.txtOrdernum.setText(String.valueOf(dto.getOrder_num())+"번");
+            holder.txtOrdernum.setText(String.valueOf(dto.getOrder_num()) + "번");
             holder.txtMenuno.setText(dto.getMenu_name());
-            holder.txtAmount.setText(String.valueOf(dto.getAmount())+"개");
-            holder.txtTotal.setText(String.valueOf(dto.getTotal_price())+"원");
+            holder.txtAmount.setText(String.valueOf(dto.getAmount()) + "개");
+            holder.txtTotal.setText(String.valueOf(dto.getTotal_price()) + "원");
         }
 
         @Override
         public int getItemCount() {
             return items1.size();
         }
+
         public class OrderViewHolder extends RecyclerView.ViewHolder {
-            private TextView txtDate,txtOrdernum,txtMenuno,txtAmount,txtTotal;
+            private TextView txtDate, txtOrdernum, txtMenuno, txtAmount, txtTotal;
 
             public OrderViewHolder(View view1) {
                 super(view1);
@@ -247,6 +237,7 @@ public class OrdersActivity extends AppCompatActivity {
             }
         }
     }
+
     void hidekeyboard() {
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(rv.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

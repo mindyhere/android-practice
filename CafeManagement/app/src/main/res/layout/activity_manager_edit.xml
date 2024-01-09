@@ -20,14 +20,14 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="match_parent"
+            android:layout_width="254dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
             android:layout_marginEnd="80dp"
             android:drawableLeft="@drawable/member_"
             android:fontFamily="@font/nanumbarungothicbold"
             android:gravity="center|center_horizontal|center_vertical"
-            android:text="회원정보"
+            android:text="관리자 정보 수정"
             android:textAlignment="center"
             android:textColor="#232323"
             android:textSize="25dp" />

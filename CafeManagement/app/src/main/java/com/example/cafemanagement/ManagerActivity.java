@@ -1,22 +1,19 @@
 package com.example.cafemanagement;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ManagerActivity extends AppCompatActivity {
     Button btn_s;
@@ -65,6 +62,7 @@ public class ManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         btn_mb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +70,7 @@ public class ManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,9 +162,6 @@ public class ManagerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String password = editpw.getText().toString();
                 pw = ((MainActivity) MainActivity.context).confirm(pw);
-                Log.d("tect", password);
-                Log.d("tect", pw);
-                Log.d("text", String.valueOf(password.equals(pw)));
                 if (password.equals(pw)) {
                     alertDialog.dismiss();
                     Intent intent = new Intent(ManagerActivity.this, ManagerEdit.class);

@@ -21,18 +21,54 @@
         android:theme="@style/Theme.CafeManagement"
         tools:targetApi="31">
 
+        <!--회원관리 액티비티-->
         <activity
-            android:name=".ManagerEdit"
+            android:name=".MemberInfo"
+            android:exported="true" />
+        <activity
+            android:name=".MainMemberActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing" />
+
+        <!--메뉴관리 액티비티-->
+        <activity
+            android:name=".MenuEditActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".PhoneActivity"
+            android:name=".CategoryPopupActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyDialog"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".MenuAddActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".MenuBoardActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
+
+        <!--재고관리 액티비티-->
+        <activity
+            android:name=".InventoryCustomDialog"
             android:exported="false" />
         <activity
-            android:name=".ManagerActivity"
+            android:name=".EditInventory"
             android:exported="false" />
+        <activity
+            android:name=".InsertInventory"
+            android:exported="false" />
+        <activity
+            android:name=".InventoryManagement"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
 
+
+        <!--매출관리 액티비티-->
+        <activity
+            android:name=".ExcelCustomDialog"
+            android:exported="false" />
         <activity
             android:name=".MonthSalemana"
             android:exported="false"
@@ -48,60 +84,18 @@
         <activity
             android:name=".SaleManagement"
             android:exported="false" />
-        <activity
-            android:name=".ExcelCustomDialog"
-            android:exported="false" />
 
+        <!--관리자계정 액티비티-->
         <activity
-            android:name=".CategoryPopupActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyDialog"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity
-            android:name=".MenuEditActivity"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".MenuAddActivity"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".MenuBoardActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustNothing" />
-
-        <activity
-            android:name=".CustomDialog"
-            android:exported="true" />
-        <activity
-            android:name=".MemberInfo_list"
-            android:exported="true" />
-        <activity
-            android:name=".MemberInfo"
-            android:exported="true" />
-        <activity
-            android:name=".member_list"
-            android:exported="true" />
-        <activity
-            android:name=".MainMemberActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustNothing" />
-
-        <activity
-            android:name=".InventoryCustomDialog"
+            android:name=".PhoneActivity"
             android:exported="false" />
         <activity
-            android:name=".EditInventory"
-            android:exported="false" />
-        <activity
-            android:name=".InsertInventory"
-            android:exported="false" />
-        <activity
-            android:name=".InventoryManagement"
+            android:name=".ManagerEdit"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ManagerActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

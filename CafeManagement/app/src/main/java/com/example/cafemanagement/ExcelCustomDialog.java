@@ -1,42 +1,27 @@
 package com.example.cafemanagement;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import jxl.Workbook;
-import jxl.format.Border;
-import jxl.format.BorderLineStyle;
-import jxl.write.Label;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import jxl.Workbook;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableSheet;
@@ -85,8 +70,9 @@ public class ExcelCustomDialog extends AppCompatActivity {
             }
         });
     }
+
     public void backup() {
-        pd = ProgressDialog.show(this,"작업중","자료를 엑셀로 저장하고 있습니다. 잠시만 기다려 주세요.");
+        pd = ProgressDialog.show(this, "작업중", "자료를 엑셀로 저장하고 있습니다. 잠시만 기다려 주세요.");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -98,6 +84,7 @@ public class ExcelCustomDialog extends AppCompatActivity {
         });
         thread.start();
     }
+
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             pd.dismiss(); //프로그레스 종료
@@ -105,6 +92,7 @@ public class ExcelCustomDialog extends AppCompatActivity {
             finish();
         }
     };
+
     public void copy() {
         WritableWorkbook workbook = null; // 엑셀파일
         WritableSheet sheet = null; // 시트
@@ -112,7 +100,7 @@ public class ExcelCustomDialog extends AppCompatActivity {
         try {
             File file = new File(fileName); //java.io.*
             workbook = Workbook.createWorkbook(file);
-            workbook.createSheet("Month_Sales",0); //시트이름,인덱스
+            workbook.createSheet("Month_Sales", 0); //시트이름,인덱스
             sheet = workbook.getSheet(0); //첫번째시트
             List<SaleDTO> list = MonthSalemana.items6;
 //            Log.i("test", "상품목록:" + items6);
@@ -120,26 +108,26 @@ public class ExcelCustomDialog extends AppCompatActivity {
             WritableCellFormat cf = new WritableCellFormat(); //셀의형식
             cf.setBorder(Border.ALL, BorderLineStyle.THIN);
 
-            label = new Label(0,0,"날짜",cf); // 열과 행 - Columns and rows
+            label = new Label(0, 0, "날짜", cf); // 열과 행 - Columns and rows
             sheet.addCell(label); // 시트에 셀 추가
-            label = new Label(1,0,"상품명",cf);
+            label = new Label(1, 0, "상품명", cf);
             sheet.addCell(label);
-            label = new Label(2,0,"수량",cf);
+            label = new Label(2, 0, "수량", cf);
             sheet.addCell(label);
-            label = new Label(3,0,"매출",cf);
+            label = new Label(3, 0, "매출", cf);
             sheet.addCell(label);
 
 
-            for(int i=0;i< list.size();i++) {
+            for (int i = 0; i < list.size(); i++) {
 
                 SaleDTO dto = list.get(i);
-                label = new Label(0,i+1, dto.getOrder_date(),cf);
+                label = new Label(0, i + 1, dto.getOrder_date(), cf);
                 sheet.addCell(label);
-                label = new Label(1,i+1, dto.getMenu_name(),cf);
+                label = new Label(1, i + 1, dto.getMenu_name(), cf);
                 sheet.addCell(label);
-                label = new Label(2,i+1,String.valueOf(dto.getMonth_amount()),cf);
+                label = new Label(2, i + 1, String.valueOf(dto.getMonth_amount()), cf);
                 sheet.addCell(label);
-                label = new Label(3,i+1,String.valueOf(dto.getMonth_sales()),cf);
+                label = new Label(3, i + 1, String.valueOf(dto.getMonth_sales()), cf);
                 sheet.addCell(label);
 
             }

@@ -49,7 +49,6 @@ public class EditInventory extends AppCompatActivity implements View.OnClickList
         editPrice = findViewById(R.id.editPrice);
         editAmount = findViewById(R.id.editAmount);
         editPurchase_date = findViewById(R.id.editPurchaseDate);
-        editProduct_name.setFilters(new InputFilter[]{filterKor});
         btnUpdate = findViewById(R.id.btnUpdate);
         btnBack = findViewById(R.id.btnBack);
         btnDelete = findViewById(R.id.btnDelete);
@@ -66,6 +65,7 @@ public class EditInventory extends AppCompatActivity implements View.OnClickList
         editProduct_id.setText(dto.getProduct_id());
         editCategorySpinner.setSelection(sAdapter.getPosition(selectedCt));
         editProduct_name.setText(dto.getProduct_name());
+        editProduct_name.setFilters(new InputFilter[]{filterKor});
         editPrice.setText(Integer.toString(dto.getPrice()));
         editAmount.setText(dto.getAmount() + "");
         editPurchase_date.setText(dto.getPurchase_date());
@@ -129,18 +129,6 @@ public class EditInventory extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    //한글만 입력가능하도록 제한
-    protected InputFilter filterKor = new InputFilter() {
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            Pattern ps = Pattern.compile("^[ㄱ-ㅣ가-힣]+$");
-            if (!ps.matcher(source).matches()) {
-                return "";
-            }
-            return source;
-        }
-    };
-
     //커스텀 다이얼로그
     public void custom_dialog() {
         Intent intent = new Intent(EditInventory.this, InventoryManagement.class);
@@ -149,7 +137,7 @@ public class EditInventory extends AppCompatActivity implements View.OnClickList
         ab.setView(dialog);
 
         TextView textContent = dialog.findViewById(R.id.textContent);
-        textContent.setText("선택하신 재고를 삭제하시겠습니까?");
+        textContent.setText("선택하신 재고를 삭제하시겠 습니까?");
 
         final AlertDialog alertDialog = ab.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -235,6 +223,18 @@ public class EditInventory extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    //한글, 공백만 입력가능하도록 제한
+    protected InputFilter filterKor = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            Pattern ps = Pattern.compile("^[ㄱ-ㅣ가-힣\\s]+$");
+            if (!ps.matcher(source).matches()) {
+                return "";
+            }
+            return source;
+        }
+    };
+    
     //천단위 구분표시
     public String numberFormat(String str) {
         if (str.length() == 0) {

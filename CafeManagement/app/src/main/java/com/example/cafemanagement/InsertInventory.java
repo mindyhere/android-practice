@@ -204,11 +204,11 @@ public class InsertInventory extends AppCompatActivity {
         }
     };
 
-    //한글만 입력가능하도록 제한
+    //한글, 공백만 입력가능하도록 제한
     protected InputFilter filterKor = new InputFilter() {
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            Pattern ps = Pattern.compile("^[ㄱ-ㅣ가-힣]+$");
+            Pattern ps = Pattern.compile("^[ㄱ-ㅣ가-힣\\s]+$");
             if (!ps.matcher(source).matches()) {
                 return "";
             }

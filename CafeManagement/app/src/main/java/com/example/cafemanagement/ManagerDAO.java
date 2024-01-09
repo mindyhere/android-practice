@@ -20,7 +20,6 @@ public class ManagerDAO {
     public SQLiteDatabase dbConn() {
         db = context.openOrCreateDatabase("management.db", Context.MODE_PRIVATE, null);
         String sql = "create table if not exists manager (userId TEXT NOT NULL UNIQUE, userPw TEXT NOT NULL UNIQUE, PRIMARY KEY(userId,userPw))";
-//        String sqlInitID = "insert into manager(userId,
         db.execSQL(sql);
         return db;
     }
@@ -52,7 +51,6 @@ public class ManagerDAO {
         }
         return resultCK;
     }
-
 
     public int insert(String id, String pw) {
         SQLiteDatabase db = null;

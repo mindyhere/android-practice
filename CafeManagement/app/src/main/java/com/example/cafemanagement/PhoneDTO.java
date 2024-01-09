@@ -1,6 +1,5 @@
 package com.example.cafemanagement;
 
-import java.security.PrivateKey;
 public class PhoneDTO {
     private String name;
     private String tel;

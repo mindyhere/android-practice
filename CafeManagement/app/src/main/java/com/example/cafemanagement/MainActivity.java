@@ -2,15 +2,11 @@ package com.example.cafemanagement;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,18 +16,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
-
 public class MainActivity extends AppCompatActivity {
     EditText editId;
     EditText editPw;
     Button buttonLogin;
     ManagerDAO dao;
-    private List<ManagerDTO> dto;
-    SQLiteDatabase sqliteDB;
-    SQLiteOpenHelper helper;
-    SQLiteDatabase db;
     CheckBox autoLogin;
     boolean saveLogin;
     SharedPreferences auto;
@@ -66,29 +55,29 @@ public class MainActivity extends AppCompatActivity {
                 String id = editId.getText().toString();
                 String pw = editPw.getText().toString();
                 String firstCheck = dao.firstCheck(id, pw);
-                if (firstCheck.equals("notFirst")) {
+
+                //데이터 베이스를 넣지 않고 NEW 프로젝트를 생성했을때 초기 비밀번호 설정 코드
+                if (firstCheck.equals("notFirst")) { // 처음 로그인이 아닐경우 디비에 있는 id: manager, pw: 1234 입력 후 로그인
 
                     int result = dao.insert(id, pw);
-                    Log.i("test", "result:" + result);
                     if (result == 1) {
                         save();
                         custom_dialog();
                     } else if (editId.length() == 0 || editPw.length() == 0) {
-                        custom_dialogA("아이디와 비밀번호를 입력하지 않았습니다", "아이디와 비밀번호를 입력해주세요.");
+                        custom_dialogA("아이디와 비밀번호를 입력해주세요.");
                     } else {
-                        custom_dialogA("로그인 정보가 맞지 않습니다.", "아이디와 비밀번호를 다시 확인해주세요.");
+                        custom_dialogA("로그인 정보가 맞지 않습니다.\n아이디와 비밀번호를 다시 확인해주세요.");
                     }
-                } else if (firstCheck.equals("first")) {
+                } else if (firstCheck.equals("first")) { // 처음 로그인할 경우 id: manager pw:0000 임의로 설정한 값으로 로그인
                     int result = dao.insert(id, pw);
-                    Log.i("test", "result:" + result);
                     if (result == 1) {
                         save();
                         custom_dialog();
                     } else if (editId.length() == 0 || editPw.length() == 0) {
-                        custom_dialogA("아이디와 비밀번호를 입력하지 않았습니다", "아이디와 비밀번호를 입력해주세요.");
+                        custom_dialogA("아이디와 비밀번호를 입력해주세요.");
                     } else {
-                        custom_dialogA("로그인 정보가 맞지 않습니다.", "아이디와 비밀번호를 다시 확인해주세요.");
-
+                        custom_dialogA("로그인 정보가 맞지 않습니다.\n 아이디와 비밀번호를 다시 확인해주세요.");
+                        // 아이디, 비밀번호  입력 초기화
                         editId.setText("");
                         editPw.setText("");
                     }
@@ -137,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 아이디, 비밀번호 초기화
                 editId.setText("");
                 editPw.setText("");
                 alertDialog.dismiss();
@@ -145,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 로그인 yes 클릭시 다이얼로그 창 띄우기
-    public void custom_dialogA(String a, String b) {
+    public void custom_dialogA(String a) {
         View dialog = getLayoutInflater().inflate(R.layout.custom_dialoga, null);
         androidx.appcompat.app.AlertDialog.Builder ab = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
         ab.setView(dialog);
@@ -163,9 +153,8 @@ public class MainActivity extends AppCompatActivity {
             // yes 누르면 아이디,비밀번호 입력값 자동 삭제
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, b, Toast.LENGTH_SHORT).show();
                 editId.setText("");
-                editPw.setText(null);
+                editPw.setText("");
                 alertDialog.dismiss();
             }
         });
