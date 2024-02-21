@@ -2,6 +2,8 @@ package webview;
 
 import java.io.IOException;
 
+import org.json.simple.JSONObject;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -37,6 +39,20 @@ public class WebviewController extends HttpServlet {
 			String page = "/webview/login_result.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		} else if (url.indexOf("login_check.do") != -1) {
+			String userid = request.getParameter("userid");
+			String passwd = request.getParameter("passwd");
+			MemberDTO dto = new MemberDTO();
+			dto.setUserid(userid);
+			dto.setPasswd(passwd);
+			MemberDTO output = dao.loginCheck(dto);
+			JSONObject jsonObj = new JSONObject();
+			if (output != null) {
+				jsonObj.put("name", output.getName());
+			} else {
+				jsonObj.put("name", null);
+			}
+			response.getWriter().println(jsonObj);
 		}
 	}
 

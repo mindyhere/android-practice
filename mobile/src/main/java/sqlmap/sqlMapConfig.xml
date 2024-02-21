@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 실제 sql query -->
 	<mappers>
 		<mapper resource="webview/mapper/member.xml" />
+		<mapper resource="android/book.xml" />
 	</mappers>
 </configuration>
 
